@@ -31,7 +31,7 @@ export default {
         if (status === 200) {
           console.log(res)
           localStorage.setItem('token', data.token)
-          this.$router.push({name:'home'})
+          this.$router.push({name: 'home'})
           this.$message({
             showClose: true,
             message: msg,
