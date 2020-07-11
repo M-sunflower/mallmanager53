@@ -29,6 +29,8 @@ export default {
       this.$http.post('login', this.formdata).then((res) => {
         const {data, meta: {msg, status}} = res.data
         if (status === 200) {
+          console.log(res)
+          localStorage.setItem('token', data.token)
           this.$router.push({name:'home'})
           this.$message({
             showClose: true,
