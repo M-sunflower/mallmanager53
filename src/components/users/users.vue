@@ -13,40 +13,27 @@
         <el-button type="success">添加用户</el-button>
       </el-col>
     </el-row>
-    <el-table
-      :data="userList"
-      style="width: 100%">
-      <el-table-column
-        type="index"
-        label="#"
-        width="60">
+    <el-table :data="userList" style="width: 100%">
+      <el-table-column type="index" label="#" width="60">
       </el-table-column>
-      <el-table-column
-        prop="username"
-        label="姓名"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="email"
-        label="邮箱"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="mobile"
-        label="电话"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        label="创建时间"
-        width="120">
+      <el-table-column prop="username" label="姓名" width="80"></el-table-column>
+      <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+      <el-table-column prop="mobile" label="电话" width="120"></el-table-column>
+      <el-table-column label="创建时间" width="120">
         <template slot-scope="scope">{{scope.row.create_time|fmtDate}}</template>
       </el-table-column>
-      <el-table-column
-        prop="mg_state"
-        label="用户状态">
+      <el-table-column label="用户状态">
+        <template slot-scope="scope">
+          <el-switch v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949">
+          </el-switch>
+        </template>
       </el-table-column>
-      <el-table-column
-        label="操作">
+      <el-table-column label="操作">
+        <template>
+          <el-button size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
+          <el-button size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
+          <el-button size="mini" plain type="success" icon="el-icon-check" circle></el-button>
+        </template>
       </el-table-column>
     </el-table>
   </el-card>
