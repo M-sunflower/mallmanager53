@@ -5,20 +5,20 @@
         <el-col :span="4"><div class="grid-content bg-purple">
           <img src = '../../assets/logo.png' alt = '无法显示图片'/>
         </div></el-col>
-        <el-col :span="18" class="middle"><h3>电商后台管理系统</h3></el-col>
+        <el-col :span="18" class="middle"><h2>电商后台管理系统</h2></el-col>
         <el-col :span="2"><div class="grid-content bg-purple"><a class="logout" href="#" @click.prevent="handleSignout()">退出</a> </div></el-col>
       </el-row>
     </el-header>
     <el-container>
       <el-aside width="200px" class="aside">
-        <el-menu :unique-opened= true>
+        <el-menu :unique-opened= "true" :router="true">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1"><i class="el-icon-menu"></i><span>用户列表</span></el-menu-item>
+              <el-menu-item index="/users"><i class="el-icon-menu"></i><span>用户列表</span></el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -62,7 +62,9 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -110,6 +112,7 @@ export default {
   }
   .middle{
     text-align: center;
+    color:#ffffff;
   }
   .logout{
     text-decoration: none;
