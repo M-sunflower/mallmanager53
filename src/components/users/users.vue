@@ -56,7 +56,7 @@
         <template slot-scope="scope">
           <el-button @click="showEditDia(scope.row)" size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
           <el-button @click="showDeleteBox(scope.row.id)" size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
-          <el-button size="mini" plain type="success" icon="el-icon-check" circle></el-button>
+          <el-button @click="setUsersRole(scope.row)" size="mini" plain type="success" icon="el-icon-check" circle></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -77,6 +77,24 @@
       <el-button @click="Cancel">取 消</el-button>
       <el-button type="primary" @click="ChangeUser">确 定</el-button>
     </div>
+    </el-dialog>
+    <!--分配角色-->
+    <el-dialog title="角色分配" :visible.sync="dialogFormVisibleRole">
+      <el-form :model="form">
+        <el-form-item label="用户名" label-width="100px">
+          {{form.username}}
+        </el-form-item>
+        <el-form-item label="角色" label-width="100px">
+          <el-select v-model="currRoleId">
+            <el-option label="请选择" value="-1"></el-option>
+            <el-option :label="item.roleName" :value="item.id" v-for="(item, index) in roles" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleRole = false">取 消</el-button>
+        <el-button type="primary" @click="setRole">确 定</el-button>
+      </div>
     </el-dialog>
     <!--分页-->
     <el-pagination
@@ -105,12 +123,15 @@ export default {
       total: -1,
       dialogFormVisibleAdd: false,
       dialogFormVisibleEdit: false,
+      dialogFormVisibleRole: false,
       form: {
         username: '',
         password: '',
         email: '',
         mobile: ''
-      }
+      },
+      currRoleId: '-1',
+      roles: []
     }
   },
   created () {
@@ -243,6 +264,22 @@ export default {
           type: 'success'
         })
       }
+    },
+    async setUsersRole (user) {
+      this.form = []
+      this.form = user
+      const res1 = await this.$http.get('roles')
+      console.log(res1)
+      this.roles = res1.data.data
+      const res = await this.$http.get('users/' + user.id)
+      console.log(res)
+      this.currRoleId = res.data.data.rid
+      this.dialogFormVisibleRole = true
+    },
+    async setRole () {
+      const res = await this.$http.put('users/' + this.form.id + '/role', {rid: this.currRoleId})
+      console.log(res)
+      this.dialogFormVisibleRole = false
     }
   }
 }
