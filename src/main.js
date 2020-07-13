@@ -8,11 +8,12 @@ import router from './router'
 import '@/assets/css/reset.css'
 import MyHttpServer from './plugins/http'
 import moment from 'moment'
+import MyBread from './components/custom/MyBread.vue'
 
 Vue.use(ElementUI)
 Vue.use(MyHttpServer)
 Vue.config.productionTip = false
-
+Vue.component(MyBread.name, MyBread)
 /* eslint-disable no-new */
 Vue.filter('fmtDate', (v) => {
   return moment(v).format('YYYY-MM-DD')

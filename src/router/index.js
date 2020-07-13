@@ -3,8 +3,14 @@ import Router from 'vue-router'
 import Login from '@/components/login/login.vue'
 import Home from '@/components/home/home.vue'
 import Users from '@/components/users/users.vue'
+import Rights from '@/components/rights/rights.vue'
+import Roles from '@/components/rights/roles.vue'
 
 Vue.use(Router)
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default new Router({
   routes: [
@@ -22,6 +28,16 @@ export default new Router({
           name: 'users',
           path: '/users',
           component: Users
+        },
+        {
+          name: 'rights',
+          path: '/rights',
+          component: Rights
+        },
+        {
+          name: 'roles',
+          path: '/roles',
+          component: Roles
         }
       ]
     }

@@ -140,7 +140,6 @@ export default {
   methods: {
     async getUserList () {
       // eslint-disable-next-line camelcase
-      this.$http.defaults.headers.common['Authorization'] = localStorage.getItem('token')
       const res = await this.$http.get(
         'users', {params: this.queryInfo})
       console.log(res)
