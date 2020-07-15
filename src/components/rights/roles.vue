@@ -39,9 +39,18 @@
       </el-table-column>
     </el-table>
     <el-dialog title="修改权限" :visible.sync="dialogFormVisibleRight">
+      <el-tree
+        :data="treeList"
+        show-checkbox
+        node-key="id"
+        default-expand-all
+        :default-checked-keys="arrcheck"
+        :props="defaultProps"
+        ref="tree">
+      </el-tree>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleRight = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisibleRight = false">确 定</el-button>
+        <el-button type="primary" @click="setRoleRights">确 定</el-button>
       </div>
     </el-dialog>
   </el-card>
@@ -53,7 +62,14 @@ export default {
   data () {
     return {
       rolesList: [],
-      dialogFormVisibleRight: false
+      dialogFormVisibleRight: false,
+      treeList: [],
+      defaultProps: {
+        children: 'children',
+        label: 'authName'
+      },
+      arrcheck: [],
+      currRoleId: -1
     }
   },
   created () {
@@ -62,16 +78,39 @@ export default {
   methods: {
     async getTableData () {
       const res = await this.$http.get('roles')
-      console.log(res)
       this.rolesList = res.data.data
     },
     async deleteRight (role, rightId) {
       const res = await this.$http.delete('roles/' + role.id + '/rights/' + rightId)
-      console.log(res)
       role.children = res.data.data
     },
-    showRightDia () {
+    async showRightDia (role) {
+      this.currRoleId = role.id
+      const res = await this.$http.get('rights/tree')
+      console.log(role)
+      this.treeList = res.data.data
+      let arrtem = []
+      role.children.forEach(item1 => {
+        item1.children.forEach(item2 => {
+          item2.children.forEach(item3 => {
+            arrtem.push(item3.id)
+          })
+        })
+      })
+      console.log(arrtem)
+      this.arrcheck = arrtem
       this.dialogFormVisibleRight = true
+    },
+    async setRoleRights () {
+      let arr1 = this.$refs.tree.getCheckedKeys()
+      let arr2 = this.$refs.tree.getHalfCheckedKeys()
+      let arr = [...arr1, ...arr2]
+      const res = await this.$http.post('roles/' + this.currRoleId + '/rights', {rids: arr.join(',')})
+      console.log(res)
+      if (res.meta.status === 200) {
+        this.getTableData()
+      }
+      this.dialogFormVisibleRight = false
     }
   }
 }
