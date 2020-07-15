@@ -80,13 +80,13 @@
     </el-dialog>
     <!--分配角色-->
     <el-dialog title="角色分配" :visible.sync="dialogFormVisibleRole">
-      <el-form :model="form">
+      <el-form :model="roleInfo">
         <el-form-item label="用户名" label-width="100px">
-          {{form.username}}
+          {{roleInfo.username}}
         </el-form-item>
         <el-form-item label="角色" label-width="100px">
           <el-select v-model="currRoleId">
-            <el-option label="请选择" value="-1"></el-option>
+            <el-option label="请选择" value="-1" disabled></el-option>
             <el-option :label="item.roleName" :value="item.id" v-for="(item, index) in roles" :key="index"></el-option>
           </el-select>
         </el-form-item>
@@ -131,7 +131,8 @@ export default {
         mobile: ''
       },
       currRoleId: '-1',
-      roles: []
+      roles: [],
+      roleInfo: []
     }
   },
   created () {
@@ -265,8 +266,7 @@ export default {
       }
     },
     async setUsersRole (user) {
-      this.form = []
-      this.form = user
+      this.roleInfo = user
       const res1 = await this.$http.get('roles')
       console.log(res1)
       this.roles = res1.data.data
@@ -276,7 +276,7 @@ export default {
       this.dialogFormVisibleRole = true
     },
     async setRole () {
-      const res = await this.$http.put('users/' + this.form.id + '/role', {rid: this.currRoleId})
+      const res = await this.$http.put('users/' + this.roleInfo.id + '/role', {rid: this.currRoleId})
       console.log(res)
       this.dialogFormVisibleRole = false
     }
