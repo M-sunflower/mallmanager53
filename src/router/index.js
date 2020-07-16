@@ -8,6 +8,8 @@ import Roles from '@/components/rights/roles.vue'
 import { Message } from 'element-ui'
 import Goodslist from '../components/goods/goodslist.vue'
 import GoodsAdd from '../components/goods/goodsadd.vue'
+import Cateparams from '../components/goods/cateparams'
+import Goodscate from '../components/goods/goodscate'
 
 Vue.use(Router)
 const originalPush = Router.prototype.push
@@ -51,6 +53,16 @@ const router = new Router({
           name: 'goodsadd',
           path: '/goodsadd',
           component: GoodsAdd
+        },
+        {
+          name: 'cateparams',
+          path: '/params',
+          component: Cateparams
+        },
+        {
+          name: 'goodscate',
+          path: '/categories',
+          component: Goodscate
         }
       ]
     }
