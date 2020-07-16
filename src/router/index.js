@@ -10,6 +10,7 @@ import Goodslist from '../components/goods/goodslist.vue'
 import GoodsAdd from '../components/goods/goodsadd.vue'
 import Cateparams from '../components/goods/cateparams'
 import Goodscate from '../components/goods/goodscate'
+import Reports from '../components/reports/reports.vue'
 
 Vue.use(Router)
 const originalPush = Router.prototype.push
@@ -63,6 +64,11 @@ const router = new Router({
           name: 'goodscate',
           path: '/categories',
           component: Goodscate
+        },
+        {
+          name: 'reports',
+          path: '/reports',
+          component: Reports
         }
       ]
     }
